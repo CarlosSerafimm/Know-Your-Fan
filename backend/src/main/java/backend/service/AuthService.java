@@ -29,11 +29,7 @@ public class AuthService {
 
         Fan fan = new Fan();
         fan.setLogin(authRequest.login());
-        fan.setEndereco(authRequest.endereco());
         fan.setSenha(passwordEncoder.encode(authRequest.senha()));
-        fan.setDataNascimento(authRequest.dataNascimento());
-        fan.setNomeCompleto(authRequest.nomeCompleto());
-
         fanRepository.save(fan);
         return tokenService.generateToken(fan);
     }

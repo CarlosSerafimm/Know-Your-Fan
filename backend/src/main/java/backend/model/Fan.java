@@ -1,9 +1,7 @@
 package backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import backend.model.enums.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +9,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -29,19 +28,42 @@ public class Fan implements UserDetails {
     private String senha;
 
     private String nomeCompleto;
-    private String endereco;
-    private Date dataNascimento;
 
-    private String jogosFavoritos; // CSV
-    private String eventosParticipados;
-    private String produtosComprados;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
+
+    private LocalDate dataNascimento;
+
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
+
+    @ElementCollection
+    private List<Jogo> jogosFavoritos;
+
+    @ElementCollection
+    private List<Evento> eventosParticipados;
+
+    @ElementCollection
+    private List<Produto> produtosComprados;
+
+    @ElementCollection
+    private List<Jogador> jogadoresFavoritos;
+
+    @ElementCollection
+    private List<Plataforma> plataformasAssistidas;
+
+    @ElementCollection
+    private List<Jogo> jogosPreferidos;
+
+    @ElementCollection
+    private List<RedeSocial> redesSeguidas;
+
 
     private String twitter;
     private String instagram;
     private String linkedIn;
 
     private int pontuacao;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
