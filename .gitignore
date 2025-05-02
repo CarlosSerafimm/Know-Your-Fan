@@ -1,0 +1,56 @@
+# .gitignore para Know-your-fan
+
+# ====================
+# Back-end (Spring Boot)
+# ====================
+/backend/target/
+/backend/.classpath
+/backend/.project
+/backend/.settings/
+/backend/.idea/
+/backend/.mvn/
+/backend/*.iml
+/backend/logs/
+/backend/*.log
+/backend/.env
+
+# IntelliJ
+/backend/out/
+
+# Eclipse
+/backend/.apt_generated/
+/backend/.factorypath
+
+# ====================
+# Front-end (React)
+# ====================
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+/frontend/.cache
+/frontend/.next/
+frontend/.idea/
+/frontend/dist/
+/frontend/yarn.lock
+
+# ====================
+# Global
+# ====================
+.DS_Store
+*.log
+*.tmp
+*.swp
+*.swo
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# OS-specific
+ehthumbs.db
+Icon?
+Desktop.ini
