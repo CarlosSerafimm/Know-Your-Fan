@@ -2,8 +2,8 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:mysql://mysql-furia:3306/furia
-    #    url: jdbc:mysql://localhost:3307/furia
+#    url: jdbc:mysql://mysql-furia:3306/furia
+    url: jdbc:mysql://localhost:3307/furia
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver

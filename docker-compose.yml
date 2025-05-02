@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:9.2.0
+    container_name: mysql-furia
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: furia
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - furia-network
+
+networks:
+  furia-network:
+volumes:
+  mysql_data:
