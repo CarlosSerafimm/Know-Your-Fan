@@ -54,6 +54,7 @@ public class FanController {
         try {
             return ResponseEntity.ok(validacaoService.validar(file));
 
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao processar o documento: " + e.getMessage());
         }

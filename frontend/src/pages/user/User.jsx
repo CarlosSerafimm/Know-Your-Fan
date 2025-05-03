@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import UploadModal from "@/components/UploadModal";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import furiaLogo from "@/assets/furia-logo.png";
@@ -69,6 +70,9 @@ export const InfoItem = ({ label, value }) => (
 export default function User() {
   const [user, setUser] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState("");
+  const [uploadStatus, setUploadStatus] = useState(null);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -77,6 +81,34 @@ export default function User() {
     };
     loadUser();
   }, []);
+  const handleImageUpload = async (file) => {
+    window.scrollTo(0, 0);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await api.post("/fan/validar", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setUploadMessage(res.data);
+      setUploadStatus("success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (err) {
+      console.error("Erro ao enviar imagem:", err);
+      const mensagem =
+        err?.response?.data?.message ||
+        "Erro ao enviar imagem. Tente novamente.";
+      setUploadMessage(mensagem);
+      setUploadStatus("error");
+    }
+
+    setTimeout(() => {
+      setUploadMessage("");
+      setUploadStatus(null);
+    }, 5000);
+  };
 
   const handleSave = async (cleanedData) => {
     try {
@@ -140,6 +172,17 @@ export default function User() {
           </div>
         </div>
 
+        {uploadMessage && (
+          <div
+            className={`mb-6 p-4 rounded-lg text-sm font-medium text-center transition-all duration-300 ${
+              uploadStatus === "success"
+                ? "bg-emerald-800 text-emerald-100 border border-emerald-500"
+                : "bg-red-900 text-red-100 border border-red-500"
+            }`}
+          >
+            {uploadMessage}
+          </div>
+        )}
         <Card className="bg-zinc-900/70 backdrop-blur-md border border-zinc-800 rounded-2xl shadow-2xl">
           <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <InfoItem label="Login" value={login} />
@@ -180,7 +223,13 @@ export default function User() {
           </CardContent>
         </Card>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-8 flex justify-end gap-3">
+          <Button
+            onClick={() => setUploadModalOpen(true)}
+            className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+          >
+            Validar
+          </Button>
           <Button
             onClick={() => setModalOpen(true)}
             className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
@@ -189,6 +238,11 @@ export default function User() {
           </Button>
         </div>
       </div>
+      <UploadModal
+        open={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onUpload={handleImageUpload}
+      />
       <EditUserModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}

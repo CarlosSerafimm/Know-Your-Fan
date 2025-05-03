@@ -59,6 +59,10 @@ public class ValidacaoService {
         if (fan == null) new RuntimeException("Usuário não encontrado");
 
         try {
+            if (fan.getNomeCompleto() == null || fan.getNomeCompleto().trim() == "") {
+
+                return "Antes de validar insira um nome completo";
+            }
             String nomeCompleto = fan.getNomeCompleto();
             String[] partesNome = nomeCompleto.split("\\s+");
 

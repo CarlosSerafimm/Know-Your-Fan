@@ -71,8 +71,19 @@ export default function EditUserModal({ open, onClose, userData, onSave }) {
   };
 
   const handleSave = () => {
-    const { validado, login, pontuacao, idade, ...cleanedData } = formData;
-    console.log(cleanedData);
+    const { validado, login, pontuacao, idade, ...rawData } = formData;
+
+    const cleanedData = Object.entries(rawData).reduce((acc, [key, value]) => {
+      if (
+        value !== "" && 
+        value !== undefined && 
+        value !== null &&
+        !(Array.isArray(value) && value.length === 0) 
+      ) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
 
     onSave(cleanedData);
     onClose();
