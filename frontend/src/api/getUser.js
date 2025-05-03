@@ -15,7 +15,6 @@ export const fetchUser = async () => {
       instagram: data.instagram || "",
       jogadoresFavoritos: data.jogadoresFavoritos || [],
       jogosFavoritos: data.jogosFavoritos || [],
-      linkedIn: data.linkedIn || "",
       login: data.login || "",
       nomeCompleto: data.nomeCompleto || "",
       pontuacao: data.pontuacao || 0,
@@ -23,7 +22,9 @@ export const fetchUser = async () => {
       redesSeguidas: data.redesSeguidas || [],
       twitter: data.twitter || "",
       validado: data.validado ?? false,
+      segueFuria: data.segueFuria ?? false,
       plataformasAssistidas: data.plataformasAssistidas || [],
+      twitchName: data.twitchName || ""
     };
   } catch (err) {
     console.error("Erro ao buscar usuário:", err);

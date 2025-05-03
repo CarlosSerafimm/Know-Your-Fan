@@ -16,6 +16,6 @@ public record RequestFanDTO(String nomeCompleto,
                             List<RedeSocial> redesSeguidas,
                             List<Plataforma> plataformasAssistidas,
                             String twitter,
-                            String instagram,
-                            String linkedIn) {
+                            String instagram
+                            ) {
 }

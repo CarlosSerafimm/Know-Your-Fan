@@ -18,6 +18,7 @@ import {
   Twitter,
   Instagram,
   Linkedin,
+  Twitch,
 } from "lucide-react";
 import { fetchUser } from "@/api/getUser";
 import EditUserModal from "@/components/EditUserModal";
@@ -39,6 +40,7 @@ const iconMap = {
   Twitter: <Twitter className="w-4 h-4 text-fuchsia-500" />,
   Instagram: <Instagram className="w-4 h-4 text-fuchsia-500" />,
   LinkedIn: <Linkedin className="w-4 h-4 text-fuchsia-500" />,
+  Twitch: <Twitch className="w-4 h-4 text-fuchsia-500" />,
   Validado: <BadgeCheck className="w-4 h-4 text-fuchsia-500" />,
 };
 
@@ -111,12 +113,12 @@ export default function User() {
   };
   const redirectToTwitchOAuth = () => {
     const clientId = "8lzpxyufeefqimduxk3grhqokp21tu";
-    const redirectUri = "http://localhost:8080/oauth/twitch/callback"; // agora para o frontend!
+    const redirectUri = "http://localhost:8080/oauth/twitch/callback";
     const token = localStorage.getItem("token");
 
     const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
       redirectUri
-    )}&scope=user:read:email&state=${encodeURIComponent(token)}`;
+    )}&scope=user:read:follows&state=${encodeURIComponent(token)}`;
 
     window.location.href = authUrl;
   };
@@ -147,9 +149,10 @@ export default function User() {
     redesSeguidas,
     twitter,
     instagram,
-    linkedIn,
     validado,
+    segueFuria,
     pontuacao,
+    twitchName,
   } = user;
 
   const calcularIdade = (dataNascimento) => {
@@ -216,8 +219,23 @@ export default function User() {
             <InfoItem label="Redes Seguidas" value={redesSeguidas} />
             <InfoItem label="Twitter" value={twitter} />
             <InfoItem label="Instagram" value={instagram} />
-            <InfoItem label="LinkedIn" value={linkedIn} />
+            <InfoItem label="Twitch" value={twitchName} />
             <InfoItem label="Validado" value={validado ? "Sim ✅" : "Não ❌"} />
+            <InfoItem
+              label="Segue na twitch?"
+              value={segueFuria ? "Sim ✅" : "Não ❌"}
+            />
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={redirectToTwitchOAuth}
+                className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center"
+              >
+                <Twitch size={24} />
+              </Button>
+              <span className="text-sm uppercase text-gray-400 tracking-wider">
+                validar twitch
+              </span>
+            </div>
 
             <div className="col-span-full mt-6">
               <p className="text-lg font-semibold text-fuchsia-400 mb-2">
@@ -246,12 +264,6 @@ export default function User() {
             className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
           >
             Editar Informações
-          </Button>
-          <Button
-            onClick={redirectToTwitchOAuth}
-            className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
-          >
-            twitch
           </Button>
         </div>
       </div>

@@ -18,7 +18,8 @@ public record ResponseFanDTO(String login,
                              List<Plataforma> plataformasAssistidas,
                              String twitter,
                              String instagram,
-                             String linkedIn,
+                             String twitchName,
                              boolean validado,
+                             boolean segueFuria,
                              int pontuacao) {
 }

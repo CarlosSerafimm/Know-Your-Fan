@@ -45,8 +45,6 @@ public class TwitchOAuthController {
         }
 
         String login;
-        System.out.print("aaaaaaaaaaaaaaaaaa");
-        System.out.print(jwt);
         try {
             login = tokenService.getLoginFromToken(jwt);
         } catch (Exception e) {
@@ -94,7 +92,7 @@ public class TwitchOAuthController {
         String twitchDisplayName = (String) userData.get("display_name");
 
         // 3. Vincular ao usuário logado com base no Principal (JWT)
-        fanService.vincularContaTwitch(login, twitchUserId, twitchLogin, twitchDisplayName);
+        fanService.vincularContaTwitch(login, twitchUserId, twitchLogin, twitchDisplayName, accessToken);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.LOCATION, "http://localhost:5173/user") // Redireciona para /user

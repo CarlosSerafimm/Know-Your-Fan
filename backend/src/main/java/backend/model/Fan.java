@@ -62,6 +62,9 @@ public class Fan implements UserDetails {
     private String linkedIn;
 
     private boolean validado = false;
+
+
+    private boolean segueFuria = false;
     private int pontuacao;
 
 
