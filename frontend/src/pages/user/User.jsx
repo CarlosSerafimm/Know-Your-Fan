@@ -2,7 +2,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import furiaLogo from "@/assets/furia-logo.png";
-import api from "@/api/api";
 import { useEffect, useState } from "react";
 import {
   BadgeCheck,
@@ -19,6 +18,9 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
+import { fetchUser } from "@/api/getUser";
+import EditUserModal from "@/components/EditUserModal";
+import api from "@/api/api";
 
 const iconMap = {
   Login: <User2 className="w-4 h-4 text-fuchsia-500" />,
@@ -65,79 +67,59 @@ export const InfoItem = ({ label, value }) => (
 );
 
 export default function User() {
-  const [dataNascimento, setDataNascimento] = useState(null);
-  const [estado, setEstado] = useState("");
-  const [eventosParticipados, setEventosParticipados] = useState([]);
-  const [genero, setGenero] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [jogadoresFavoritos, setJogadoresFavoritos] = useState([]);
-  const [jogosFavoritos, setJogosFavoritos] = useState([]);
-  const [linkedIn, setLinkedIn] = useState("");
-  const [login, setLogin] = useState("");
-  const [nomeCompleto, setNomeCompleto] = useState("");
-  const [pontuacao, setPontuacao] = useState(0);
-  const [produtosComprados, setProdutosComprados] = useState([]);
-  const [redesSeguidas, setRedesSeguidas] = useState([]);
-  const [twitter, setTwitter] = useState("");
-  const [validado, setValidado] = useState(false);
-  const [idade, setIdade] = useState(0);
-  const [plataformasAssistidas, setPlataformasAssistidas] = useState([]);
+  const [user, setUser] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchUser();
+    const loadUser = async () => {
+      const fetchedUser = await fetchUser();
+      setUser(fetchedUser);
+    };
+    loadUser();
   }, []);
 
-  const fetchUser = async () => {
+  const handleSave = async (cleanedData) => {
     try {
-      const res = await api.get("/fan/pesquisar");
-      const data = res.data;
-      console.log(data);
-
-      setDataNascimento(data.dataNascimento || null);
-      setEstado(data.estado || "");
-      setEventosParticipados(data.eventosParticipados || []);
-      setGenero(data.genero || "");
-      setInstagram(data.instagram || "");
-      setJogadoresFavoritos(data.jogadoresFavoritos || []);
-      setJogosFavoritos(data.jogosFavoritos || []);
-      setLinkedIn(data.linkedIn || "");
-      setLogin(data.login || "");
-      setNomeCompleto(data.nomeCompleto || "");
-      setPontuacao(data.pontuacao || 0);
-      setProdutosComprados(data.produtosComprados || []);
-      setRedesSeguidas(data.redesSeguidas || []);
-      setTwitter(data.twitter || "");
-      setValidado(data.validado ?? false);
-      calcularIdade(data.dataNascimento);
-      setPlataformasAssistidas(data.plataformasAssistidas || []);
-    } catch (err) {
-      console.error("Erro ao buscar usuario:", err);
+      const res = await api.put("/fan", cleanedData);
+      setUser(res.data);
+    } catch (error) {
+      console.error("Erro ao salvar dados do usuário:", error);
     }
   };
+
+  if (!user) {
+    return <p className="text-white">Carregando...</p>;
+  }
+  const {
+    login,
+    nomeCompleto,
+    estado,
+    dataNascimento,
+    genero,
+    jogosFavoritos,
+    eventosParticipados,
+    produtosComprados,
+    jogadoresFavoritos,
+    plataformasAssistidas,
+    redesSeguidas,
+    twitter,
+    instagram,
+    linkedIn,
+    validado,
+    pontuacao,
+  } = user;
 
   const calcularIdade = (dataNascimento) => {
     if (!dataNascimento) return null;
-
     const hoje = new Date();
     const nascimento = new Date(dataNascimento);
-
     let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mesAtual = hoje.getMonth();
-    const diaAtual = hoje.getDate();
-
-    const mesNascimento = nascimento.getMonth();
-    const diaNascimento = nascimento.getDate();
-
-    if (
-      mesAtual < mesNascimento ||
-      (mesAtual === mesNascimento && diaAtual < diaNascimento)
-    ) {
-      idade--;
-    }
-
-    setIdade(idade);
+    const m = hoje.getMonth() - nascimento.getMonth();
+    if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) idade--;
+    return idade;
   };
 
+  const idade = calcularIdade(user.dataNascimento);
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -199,11 +181,20 @@ export default function User() {
         </Card>
 
         <div className="mt-8 flex justify-end">
-          <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all">
+          <Button
+            onClick={() => setModalOpen(true)}
+            className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+          >
             Editar Informações
           </Button>
         </div>
       </div>
+      <EditUserModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        userData={user}
+        onSave={handleSave}
+      />
     </motion.div>
   );
 }
