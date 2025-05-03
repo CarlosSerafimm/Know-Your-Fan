@@ -18,5 +18,6 @@ public record ResponseFanDTO(String login,
                              String twitter,
                              String instagram,
                              String linkedIn,
+                             boolean validado,
                              int pontuacao) {
 }

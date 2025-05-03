@@ -63,6 +63,7 @@ public class Fan implements UserDetails {
     private String instagram;
     private String linkedIn;
 
+    private boolean validado = false;
     private int pontuacao;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
