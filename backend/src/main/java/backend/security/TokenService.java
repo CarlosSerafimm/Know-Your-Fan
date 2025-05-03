@@ -6,6 +6,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -45,6 +48,20 @@ public class TokenService {
             return "";
         }
     }
+
+    public String getLoginFromToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            DecodedJWT decodedJWT = JWT.require(algorithm)
+                    .withIssuer("backend")
+                    .build()
+                    .verify(token);
+            return decodedJWT.getSubject(); // Retorna o login do usuário
+        } catch (JWTVerificationException e) {
+            return "Token invalido";
+        }
+    }
+
 
 
     private Instant genExpirationDate(){

@@ -63,6 +63,12 @@ public class Fan implements UserDetails {
 
     private boolean validado = false;
     private int pontuacao;
+
+
+    private String twitchId;
+    private String twitchLogin;
+    private String twitchName;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

@@ -64,13 +64,24 @@ public class FanService {
         int totalPontos = jogos + evento + produto + jogador + redeSocial + plataforma;
         int pontos = 0;
 
-        if (fan.getJogosFavoritos() != null) pontos += fan.getJogosFavoritos().size() -1;
-        if(fan.getEventosParticipados() != null) pontos += fan.getEventosParticipados().size()-1;
+        if (fan.getJogosFavoritos() != null) pontos += fan.getJogosFavoritos().size() - 1;
+        if (fan.getEventosParticipados() != null) pontos += fan.getEventosParticipados().size() - 1;
         if (fan.getProdutosComprados() != null) pontos += fan.getProdutosComprados().size();
         if (fan.getJogadoresFavoritos() != null) pontos += fan.getJogadoresFavoritos().size();
-        if(fan.getRedesSeguidas() != null) pontos += fan.getRedesSeguidas().size() -1;
-        if(fan.getPlataformasAssistidas() != null) pontos += fan.getPlataformasAssistidas().size() -1;
+        if (fan.getRedesSeguidas() != null) pontos += fan.getRedesSeguidas().size() - 1;
+        if (fan.getPlataformasAssistidas() != null) pontos += fan.getPlataformasAssistidas().size() - 1;
 
-        return (pontos *100)/totalPontos;
+        return (pontos * 100) / totalPontos;
     }
+
+    public void vincularContaTwitch(String login, String twitchId, String twitchLogin, String twitchName) {
+        Fan fan = fanRepository.findByLogin(login);
+        if (fan == null) throw new RuntimeException("Usuário não encontrado");
+
+        fan.setTwitchId(twitchId);
+        fan.setTwitchLogin(twitchLogin);
+        fan.setTwitchName(twitchName);
+        fanRepository.save(fan);
+    }
+
 }

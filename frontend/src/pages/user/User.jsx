@@ -109,6 +109,17 @@ export default function User() {
       setUploadStatus(null);
     }, 5000);
   };
+  const redirectToTwitchOAuth = () => {
+    const clientId = "8lzpxyufeefqimduxk3grhqokp21tu";
+    const redirectUri = "http://localhost:8080/oauth/twitch/callback"; // agora para o frontend!
+    const token = localStorage.getItem("token");
+
+    const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&scope=user:read:email&state=${encodeURIComponent(token)}`;
+
+    window.location.href = authUrl;
+  };
 
   const handleSave = async (cleanedData) => {
     try {
@@ -235,6 +246,12 @@ export default function User() {
             className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
           >
             Editar Informações
+          </Button>
+          <Button
+            onClick={redirectToTwitchOAuth}
+            className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+          >
+            twitch
           </Button>
         </div>
       </div>

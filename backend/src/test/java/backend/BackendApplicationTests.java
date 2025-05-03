@@ -3,6 +3,7 @@ package backend;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
@@ -11,7 +12,7 @@ import java.io.File;
 class BackendApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void readDocument() {
 		try{
 
 		Tesseract tesseract = new Tesseract();
@@ -27,5 +28,7 @@ class BackendApplicationTests {
 		}
 
 	}
+
+
 
 }
