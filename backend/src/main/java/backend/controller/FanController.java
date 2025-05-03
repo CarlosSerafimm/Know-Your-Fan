@@ -3,6 +3,7 @@ package backend.controller;
 import backend.DTO.RequestFanDTO;
 import backend.DTO.ResponseFanDTO;
 import backend.model.Fan;
+import backend.model.enums.Jogo;
 import backend.model.mapper.FanMapper;
 import backend.service.FanService;
 import backend.service.ValidacaoService;
@@ -27,6 +28,9 @@ public class FanController {
 
     @GetMapping("/pesquisar")
     public ResponseEntity<ResponseFanDTO> getFan() {
+
+
+
         ResponseFanDTO fan = fanService.getFan();
 
         return ResponseEntity.ok(fan);

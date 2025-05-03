@@ -14,6 +14,7 @@ public record RequestFanDTO(String nomeCompleto,
                             List<Produto> produtosComprados,
                             List<Jogador> jogadoresFavoritos,
                             List<RedeSocial> redesSeguidas,
+                            List<Plataforma> plataformasAssistidas,
                             String twitter,
                             String instagram,
                             String linkedIn) {

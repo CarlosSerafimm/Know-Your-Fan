@@ -52,8 +52,6 @@ public class Fan implements UserDetails {
     @ElementCollection
     private List<Plataforma> plataformasAssistidas;
 
-    @ElementCollection
-    private List<Jogo> jogosPreferidos;
 
     @ElementCollection
     private List<RedeSocial> redesSeguidas;
