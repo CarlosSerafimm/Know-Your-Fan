@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Graficos from './pages/graficos/graficos';
+import Graficos from './pages/graficos/Graficos';
 import Auth from './pages/auth/Auth';
 import App from './App';
 import User from './pages/user/User';

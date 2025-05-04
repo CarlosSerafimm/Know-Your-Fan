@@ -2,7 +2,7 @@ spring:
   application:
     name: backend
   datasource:
-#    url: jdbc:mysql://mysql-furia:3306/furia
+#    url: jdbc:mysql://mysql-know-furia:3306/furia
     url: jdbc:mysql://localhost:3307/furia
     username: root
     password: root
