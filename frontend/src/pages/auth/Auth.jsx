@@ -10,7 +10,7 @@ function Auth() {
   const navigate = useNavigate();
   useEffect(() => {
     if (isTokenValid()) {
-      navigate("/");
+      navigate("/user");
     }
   }, []);
 

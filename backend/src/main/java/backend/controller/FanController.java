@@ -4,7 +4,9 @@ import backend.DTO.RequestFanDTO;
 import backend.DTO.ResponseFanDTO;
 import backend.model.Fan;
 import backend.model.enums.Jogo;
+import backend.model.enums.Plataforma;
 import backend.model.mapper.FanMapper;
+import backend.repository.FanRepository;
 import backend.service.FanService;
 import backend.service.ValidacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +28,8 @@ public class FanController {
     private FanMapper fanMapper;
     @Autowired
     private ValidacaoService validacaoService;
+    @Autowired
+    private FanRepository fanRepository;
 
     @GetMapping("/pesquisar")
     public ResponseEntity<ResponseFanDTO> getFan() {

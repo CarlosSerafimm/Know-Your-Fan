@@ -23,6 +23,9 @@ import {
 import { fetchUser } from "@/api/getUser";
 import EditUserModal from "@/components/EditUserModal";
 import api from "@/api/api";
+import { isTokenValid } from "@/api/auth";
+import { useNavigate } from "react-router-dom";
+import { decodeJwt } from "@/api/decodeJwt";
 
 const iconMap = {
   Login: <User2 className="w-4 h-4 text-fuchsia-500" />,
@@ -75,14 +78,32 @@ export default function User() {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
   const [uploadStatus, setUploadStatus] = useState(null);
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isTokenValid()) {
+      navigate("/auth");
+    }
     const loadUser = async () => {
       const fetchedUser = await fetchUser();
       setUser(fetchedUser);
     };
+    async function fetchUsername() {
+      try {
+        const user = await decodeJwt();
+
+        setUsername(user);
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+
+    fetchUsername();
+
     loadUser();
   }, []);
+
   const handleImageUpload = async (file) => {
     window.scrollTo(0, 0);
     const formData = new FormData();
@@ -130,6 +151,11 @@ export default function User() {
     } catch (error) {
       console.error("Erro ao salvar dados do usuário:", error);
     }
+  };
+
+  const deslogar = () => {
+    localStorage.removeItem("token");
+    navigate("/auth");
   };
 
   if (!user) {
@@ -185,7 +211,24 @@ export default function User() {
             />
           </div>
         </div>
-
+        <div className="w-full mb-4 flex justify-end gap-4">
+          {username === "admin" && (
+            <Button
+              onClick={() => {
+                navigate("/graficos");
+              }}
+              className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+            >
+              Gráficos
+            </Button>
+          )}
+          <Button
+            onClick={deslogar}
+            className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+          >
+            Deslogar
+          </Button>
+        </div>
         {uploadMessage && (
           <div
             className={`mb-6 p-4 rounded-lg text-sm font-medium text-center transition-all duration-300 ${
