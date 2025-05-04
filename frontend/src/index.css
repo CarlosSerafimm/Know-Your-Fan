@@ -3,6 +3,50 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media print {
+  .bar-chart {
+    width: 80% !important; /* Diminui a largura do gráfico de barra */
+  }
+
+  /* Força o fundo e a cor do texto */
+  body {
+    background: #18181b !important; /* Cor de fundo escura */
+    color: white !important; /* Cor do texto */
+  }
+
+  .card,
+  .google-visualization-chart {
+    background-color: #18181b !important; /* Garantir fundo escuro nos cards */
+    color: white !important; /* Forçar cor branca nos textos do card */
+  }
+
+  .google-visualization-tooltip {
+    color: white !important; /* Mudando cor das tooltips nos gráficos */
+  }
+
+  .google-visualization-chart .google-visualization-text {
+    fill: white !important; /* Mudando cor do texto nos gráficos */
+  }
+
+  /* Esconde o botão de impressão */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Muda as labels e o texto dos eixos para preto nas impressões */
+  .google-visualization-legend text,
+  .google-visualization-axis-label,
+  .google-visualization-haxis text,
+  .google-visualization-vaxis text {
+    fill: #000 !important; /* Cor preta */
+  }
+
+  /* Ajuste para garantir que as legendas (ao lado do gráfico) fiquem pretas */
+  .google-visualization-legend {
+    fill: #000 !important; /* Cor preta */
+  }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

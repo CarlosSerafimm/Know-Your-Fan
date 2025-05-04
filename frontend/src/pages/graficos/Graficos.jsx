@@ -4,10 +4,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Chart } from "react-google-charts";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Graficos() {
   const [dados, setDados] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,21 +42,47 @@ export default function Graficos() {
 
     const chartOptions = {
       backgroundColor: "transparent",
-      legend: { textStyle: { color: "#f1f1f1", fontSize: 12 } },
+      legend: {
+        textStyle: {
+          color: "#000",
+          fontSize: 12,
+        },
+      },
       ...(isBarChart && {
-        hAxis: { textStyle: { color: "#ccc" } },
-        vAxis: { textStyle: { color: "#ccc" }, minValue: 0 },
+        hAxis: {
+          textStyle: {
+            color: "#000",
+          },
+        },
+        vAxis: {
+          textStyle: {
+            color: "#000",
+          },
+          minValue: 0,
+        },
         chartArea: { width: "80%", height: "70%" },
       }),
+      ...(chartType === "PieChart" && {
+        slices: {
+          0: { offset: 0.1 },
+        },
+      }),
+      titleTextStyle: {
+        color: "#000",
+        fontSize: 16,
+        bold: true,
+      },
     };
 
     return (
       <motion.div
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.3 }}
-        className="w-full sm:w-[48%] lg:w-[48%] mb-6" // Ajustado para 2 por linha
+        className={`w-full sm:w-[48%] lg:w-[48%] min-w-[280px] max-w-[600px] mb-6 ${
+          isBarChart ? "bar-chart" : ""
+        }`}
       >
-        <Card className="bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 shadow-xl rounded-3xl p-4 transition-transform duration-300">
+        <Card className="bg-gradient-to-br from-slate-700 to-zinc-700 border border-zinc-700 shadow-xl rounded-3xl p-4 transition-transform duration-300">
           <h2 className="text-lg font-bold text-purple-400 mb-3 tracking-wide">
             {titulo}
           </h2>
@@ -87,24 +116,43 @@ export default function Graficos() {
       >
         Painel de Gráficos
       </motion.h1>
-      <div className="flex flex-wrap justify-center gap-6">
-        {renderGrafico("Gênero", dados.generoCount)}
-        {renderGrafico("Estado", dados.estadoCount)}
-        {renderGrafico("Jogos Favoritos", dados.jogoCount)}
-        {renderGrafico("Eventos", dados.eventoCount)}
-        {renderGrafico("Produtos Comprados", dados.produtoCount)}
-        {renderGrafico("Plataformas Assistidas", dados.plataformaCount)}
-        {renderGrafico("Redes Sociais", dados.redeSocialCount)}
-        {renderGrafico("Jogadores Favoritos", dados.jogadorCount)}
-        {renderGrafico("Validado", {
-          Validado: dados.validadoTrueCount,
-          "Não Validado": dados.validadoFalseCount,
-        })}
-        {renderGrafico("Segue a FURIA", {
-          Sim: dados.segueFuriaTrueCount,
-          Não: dados.segueFuriaFalseCount,
-        })}
+      <div className="flex justify-center mb-8 gap-4">
+        <Button
+          onClick={() => window.print()}
+          className="no-print bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+        >
+          Salvar em PDF
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/user");
+          }}
+          className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+        >
+          User
+        </Button>
       </div>
+
+      {dados && (
+        <div className="flex flex-wrap justify-center gap-6">
+          {renderGrafico("Gênero", dados.generoCount)}
+          {renderGrafico("Estado", dados.estadoCount)}
+          {renderGrafico("Jogos Favoritos", dados.jogoCount)}
+          {renderGrafico("Eventos", dados.eventoCount)}
+          {renderGrafico("Produtos Comprados", dados.produtoCount)}
+          {renderGrafico("Plataformas Assistidas", dados.plataformaCount)}
+          {renderGrafico("Redes Sociais", dados.redeSocialCount)}
+          {renderGrafico("Jogadores Favoritos", dados.jogadorCount)}
+          {renderGrafico("Validado", {
+            Validado: dados.validadoTrueCount,
+            "Não Validado": dados.validadoFalseCount,
+          })}
+          {renderGrafico("Segue a FURIA", {
+            Sim: dados.segueFuriaTrueCount,
+            Não: dados.segueFuriaFalseCount,
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -212,7 +212,7 @@ export default function User() {
           </div>
         </div>
         <div className="w-full mb-4 flex justify-end gap-4">
-          {username === "admin" && (
+          {username === "ADMIN" && (
             <Button
               onClick={() => {
                 navigate("/graficos");
@@ -281,10 +281,10 @@ export default function User() {
             </div>
 
             <div className="col-span-full mt-6">
-              <p className="text-lg font-semibold text-fuchsia-400 mb-2">
+              <p className="text-lg font-semibold text-fuchsia-400 tracking-wider mb-2">
                 Nível de fã
               </p>
-              <div className="w-full h-6 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="w-full h-6 bg-zinc-800 rounded-full overflow-hidden ">
                 <div
                   className="bg-gradient-to-r from-fuchsia-500 to-purple-700 h-full rounded-full transition-all duration-500"
                   style={{ width: `${pontuacao}%` }}
@@ -296,6 +296,12 @@ export default function User() {
         </Card>
 
         <div className="mt-8 flex justify-end gap-3">
+          <Button
+            onClick={() => window.print()}
+            className="cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"
+          >
+            Salvar em PDF
+          </Button>
           <Button
             onClick={() => setUploadModalOpen(true)}
             className="cursor-pointer bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition-all"

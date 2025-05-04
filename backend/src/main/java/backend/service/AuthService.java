@@ -30,6 +30,7 @@ public class AuthService {
         Fan fan = new Fan();
         fan.setLogin(authRequest.login());
         fan.setSenha(passwordEncoder.encode(authRequest.senha()));
+        fan.setRole("ROLE_USER");
         fanRepository.save(fan);
         return tokenService.generateToken(fan);
     }

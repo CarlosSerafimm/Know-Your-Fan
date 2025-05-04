@@ -36,6 +36,7 @@ public class FanController {
 
 
 
+
         ResponseFanDTO fan = fanService.getFan();
 
         return ResponseEntity.ok(fan);

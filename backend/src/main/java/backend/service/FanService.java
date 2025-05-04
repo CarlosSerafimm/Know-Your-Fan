@@ -37,8 +37,8 @@ public class FanService {
             throw new RuntimeException("Usuário não autenticado");
         }
 
-        String login = (String) authentication.getPrincipal();
-        Fan fan = fanRepository.findByLogin(login);
+        Fan Teste = (Fan) authentication.getPrincipal();
+        Fan fan = fanRepository.findByLogin(Teste.getLogin());
         return fanMapper.entityToResponseFan(fan);
     }
 
@@ -48,9 +48,9 @@ public class FanService {
 
     public ResponseFanDTO updateLoggedFan(RequestFanDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = (String) authentication.getPrincipal();
+        Fan Teste = (Fan) authentication.getPrincipal();
 
-        Fan fan = fanRepository.findByLogin(login);
+        Fan fan = fanRepository.findByLogin(Teste.getLogin());
         if (fan == null) new RuntimeException("Usuário não encontrado");
 
 

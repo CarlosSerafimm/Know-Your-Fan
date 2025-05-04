@@ -53,9 +53,9 @@ public class ValidacaoService {
 
     public String validar(MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = (String) authentication.getPrincipal();
+        Fan Teste = (Fan) authentication.getPrincipal();
+        Fan fan = fanRepository.findByLogin(Teste.getLogin());
 
-        Fan fan = fanRepository.findByLogin(login);
         if (fan == null) new RuntimeException("Usuário não encontrado");
 
         try {
